@@ -174,8 +174,8 @@
                 "vmName": {
                     "value": "[variables('vmNames').VMs[copyIndex()].Name]"
                 },
-                "keyVaultName": {
-                    "value": "[parameters('keyVaultName')]"
+                "keyVaultResourceId": {
+                    "value": "[parameters('vmEncryptionSettings').keyVaultId]"
                 },
                 "vmEncryptionSettings": {
                     "value": "[parameters('vmEncryptionSettings')]"

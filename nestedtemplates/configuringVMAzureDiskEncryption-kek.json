@@ -5,7 +5,7 @@
         "vmName": {
             "type": "string"
         },
-        "keyVaultName": {
+        "keyVaultResourceId": {
             "type": "string"
         },
         "vmEncryptionSettings": {
@@ -82,7 +82,33 @@
                     "AADClientSecret": "[parameters('aadClientSecret')]"
                 }
             }
-        }
+        },
+		{
+		  "type": "Microsoft.Compute/virtualMachines",
+		  "name": "[parameters('vmName')]",
+		  "apiVersion": "2017-12-01",
+		  "location": "[resourceGroup().location]",
+		  "properties": {
+			"storageProfile": {
+			  "osDisk": {
+				"encryptionSettings": {
+				  "diskEncryptionKey": {
+					"sourceVault": {
+					  "id": "[parameters('keyVaultResourceID')]"
+					},
+					"secretUrl": "[reference(resourceId('Microsoft.Compute/virtualMachines/extensions',  parameters('vmName'), parameters('vmEncryptionSettings').diskEncryptionExtensionName)).instanceView.statuses[0].message]"
+				  },
+				  "keyEncryptionKey": {
+					"sourceVault": {
+					  "id": "[parameters('keyVaultResourceID')]"
+					},
+					"keyUrl": "[parameters('keyEncryptionKeyURL')]"
+				  }
+				}
+			  }
+			}
+		  }
+		} 
     ],
     "outputs": {
         "BitLockerKey": {
