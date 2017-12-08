@@ -209,8 +209,8 @@
                     "vmName": {
                         "value": "[concat(parameters('WebVMName'), copyindex())]"
                     },
-                    "keyVaultName": {
-                        "value": "[parameters('keyVaultName')]"
+                    "keyVaultResourceId": {
+						"value": "[parameters('vmEncryptionSettings').keyVaultId]"
                     },
                     "vmEncryptionSettings": {
                         "value": "[parameters('vmEncryptionSettings')]"
